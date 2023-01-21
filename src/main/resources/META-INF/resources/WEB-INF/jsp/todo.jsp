@@ -10,7 +10,7 @@
                 </fieldset>
                 <fieldset class="mb-3">
                     <form:label path="targetDate">Target Date</form:label>
-                    <form:input type="text" path="targetDate" name="targetDate" required="required" />
+                    <form:input type="date" pattern="yyyy-MM-dd" path="targetDate" name="targetDate" required="required" />
                     <form:errors path="targetDate" cssClass="text-warning" />
                 </fieldset>
                 <form:input type="hidden" path="id" />
@@ -19,8 +19,8 @@
             </form:form>
         </div>
         <%@ include file="common/footer.jsp" %>
-            <!-- <script type="text/javascript">
+             <%-- <script type="text/javascript">
                 $("#targetDate").datepicker({
                     format: "yyyy/mm/dd"
                 })
-            </script> -->
+            </script> --%>

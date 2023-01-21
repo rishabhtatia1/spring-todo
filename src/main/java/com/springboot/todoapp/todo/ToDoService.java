@@ -16,7 +16,7 @@ public class ToDoService {
     static {
         todoos.add(new ToDo(todosCount++, "rishabh", "testing", LocalDate.now().plusYears(1), false));
         todoos.add(new ToDo(todosCount++, "rishabh", "testing", LocalDate.now().plusYears(2), false));
-        todoos.add(new ToDo(todosCount++, "rishabh1", "testing", LocalDate.now().plusYears(-1), false));
+        todoos.add(new ToDo(todosCount++, "rishabh", "testing", LocalDate.now().plusYears(-1), false));
     }
 
     public List<ToDo> findByUsername(String name) {

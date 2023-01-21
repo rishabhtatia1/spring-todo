@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.validation.Valid;
 
-//@Controller
+@Controller
 @SessionAttributes("name")
-public class ToDoController {
-    private ToDoService toDoService;
+public class ToDoControllerJpa {
+    private ToDoRepository toDoRepository;
 
-    public ToDoController(ToDoService toDoService) {
-        this.toDoService = toDoService;
+    public ToDoControllerJpa(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
     }
 
     @RequestMapping(value = "list-todos")
     public String listTodoPage(ModelMap model) {
         String username = getLoggedinUsername();
-        List<ToDo> todos = toDoService.findByUsername(username);
+        List<ToDo> todos = toDoRepository.findByUsername(username);
         model.put("todos", todos);
         return "listTodos";
     }
@@ -47,20 +47,23 @@ public class ToDoController {
             return "todo";
         }
         String username = getLoggedinUsername();
-        toDoService.addToDo(username, todo.getDescription(),
-                todo.getTargetDate(), todo.isDone());
+        todo.setUsername(username);
+        toDoRepository.save(todo);
+        // toDoService.addToDo(username, todo.getDescription(),
+        // todo.getTargetDate(), todo.isDone());
         return "redirect:list-todos";
     }
 
     @RequestMapping(value = "delete-todo")
     public String deleteToDo(@RequestParam int id) {
-        toDoService.deleteById(id);
+        // toDoService.deleteById(id);
+        toDoRepository.deleteById(id);
         return "redirect:list-todos";
     }
 
     @RequestMapping(value = "update-todo", method = RequestMethod.GET)
     public String showUpdateToDo(@RequestParam int id, ModelMap model) {
-        ToDo todo = toDoService.findById(id);
+        ToDo todo = toDoRepository.findById(id).get();
         model.addAttribute("todo", todo);
         return "todo";
     }
@@ -71,10 +74,9 @@ public class ToDoController {
             return "todo";
         }
         String username = (String) model.get("name");
-        LocalDate targetDate = (LocalDate) model.get("targetDate");
         todo.setUsername(username);
-        todo.setTargetDate(targetDate);
-        toDoService.updateToDo(todo);
+        toDoRepository.save(todo);
+        // toDoService.updateToDo(todo);
         return "redirect:list-todos";
     }
 
